@@ -1,11 +1,13 @@
 # Neural-Surrogate-for-2D-Heat-Transfer
+## Auteurs: Dohemeto Bonaventure Kpessou
+
 
 > **Objectif** : Entraîner un réseau de neurones convolutif (CNN) à prédire la distribution de température finale d'une plaque 2D à partir de ses conditions aux limites (sources de chaleur), afin de remplacer un solveur itératif lent (différences finies).  
-> Ce README présente un **plan détaillé** du projet, suivi du **contenu des 1/3 du plan** (sections 1 à 4).
+
 
 ---
 
-## 📋 Plan détaillé (structure complète du projet)
+## 📋 Plan détaillé 
 
 | Section | Titre |
 |---------|-------|
