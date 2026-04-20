@@ -44,9 +44,8 @@ Construire un **surrogate model** basé sur un CNN capable de prédire instantan
 
 Pour une plaque isotrope homogène, sans convection ni rayonnement, la température \( T(x,y) \) satisfait :
 
-\[
-\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} = -\frac{q(x,y)}{k}
-\]
+
+$\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} = -\frac{q(x,y)}{k}$
 
 où :
 - \( q(x,y) \) : source de chaleur volumique (W/m³)
