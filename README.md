@@ -42,28 +42,28 @@ Construire un **surrogate model** basé sur un CNN capable de prédire instantan
 
 #### 2.1 Équation de la chaleur 2D stationnaire
 
-Pour une plaque isotrope homogène, sans convection ni rayonnement, la température \( T(x,y) \) satisfait :
+Pour une plaque isotrope homogène, sans convection ni rayonnement, la température $ T(x,y) $ satisfait :
 
 
 $\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} = -\frac{q(x,y)}{k}$
 
 où :
-- \( q(x,y) \) : source de chaleur volumique (W/m³)
-- \( k \) : conductivité thermique (W/(m·K))
+- $ q(x,y) $ : source de chaleur volumique (W/m³)
+- $ k $ : conductivité thermique (W/(m·K))
 
 #### 2.2 Domaine et conditions aux limites
 
-- Domaine : rectangle \([0, L_x] \times [0, L_y]\) discrétisé en grille \(N_x \times N_y\).
+- Domaine : rectangle $[0, L_x] \times [0, L_y]$ discrétisé en grille $N_x \times N_y$.
 - Conditions aux limites : 
-  - Température imposée (Dirichlet) sur certains bords (par ex. \(T=300\) K à gauche).
+  - Température imposée (Dirichlet) sur certains bords (par ex. $T=300$ K à gauche).
   - Flux nul (Neumann) sur les autres bords (isolant parfait).
 
 #### 2.3 Entrées / sorties du surrogate
 
-- **Entrée** (carte 2D) : distribution des sources de chaleur \( q(x,y) \) (peut être nulle par endroits, positive ou négative).
-- **Sortie** (carte 2D) : champ de température stationnaire \( T(x,y) \).
+- **Entrée** (carte 2D) : distribution des sources de chaleur $ q(x,y) $ (peut être nulle par endroits, positive ou négative).
+- **Sortie** (carte 2D) : champ de température stationnaire $ T(x,y) $.
 
-Le CNN doit donc apprendre l’opérateur \( \mathcal{F} : q \mapsto T \).
+Le CNN doit donc apprendre l’opérateur $ \mathcal{F} : q \mapsto T $.
 
 ### 3. Génération des données (solveur numérique)
 
@@ -72,26 +72,26 @@ Le CNN doit donc apprendre l’opérateur \( \mathcal{F} : q \mapsto T \).
 On utilise un schéma de différences finies centrées avec relaxation de Gauss‑Seidel.
 
 **Algorithme** :
-1. Initialisation de \( T \) (ex: 300 K partout).
+1. Initialisation de $ T $ (ex: 300 K partout).
 2. Pour chaque itération, mettre à jour chaque nœud intérieur :
-   \[
-   T_{i,j}^{\text{new}} = \frac{1}{4}\left(T_{i-1,j} + T_{i+1,j} + T_{i,j-1} + T_{i,j+1} + \frac{\Delta x^2}{k} q_{i,j}\right)
-   \]
-3. Appliquer les conditions aux limites.
-4. Répéter jusqu’à convergence (\( \max|T^{\text{new}} - T| < \epsilon \)).
+   
+   $T_{i,j}^{\text{new}} = \frac{1}{4}\left(T_{i-1,j} + T_{i+1,j} + T_{i,j-1} + T_{i,j+1} + \frac{\Delta x^2}{k} q_{i,j}\right)$
+   
+4. Appliquer les conditions aux limites.
+5. Répéter jusqu’à convergence ($ \max|T^{\text{new}} - T| < \epsilon $).
 
 #### 3.2 Création du dataset
 
-On génère **10 000 paires** \((q, T)\) en variant aléatoirement :
+On génère **10 000 paires** $(q, T)$ en variant aléatoirement :
 - Nombre, positions et intensités des sources (points chauds/froids).
 - Possibilité d’ajouter un bruit de fond (petites variations).
 
 **Paramètres de discrétisation** :
-- Grille : \(64 \times 64\) (compromis précision / mémoire).
-- Conductivité \(k = 1\) (normalisée).
-- Seuil de convergence : \(10^{-5}\).
+- Grille : $64 \times 64$ (compromis précision / mémoire).
+- Conductivité $k = 1$ (normalisée).
+- Seuil de convergence : $10^{-5}$.
 
-**Exemple de code Python (pseudo)** :
+**Exemple de code Python (structure)** :
 ```python
 import numpy as np
 from scipy.ndimage import gaussian_filter
